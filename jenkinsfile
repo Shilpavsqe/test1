@@ -5,6 +5,8 @@ pipeline {
       sonar_url = 'http://172.31.6.111:9000/'
       sonar_username = 'admin'
       sonar_password = 'admin'
+      registry = "https://docker.io/"
+      registryCredential = '3f2854f8-8a14-4292-bcf8-51f6ae88636b'
  }
     tools {
       // Install the Maven version configured as "M3" and add it to the path.
@@ -49,13 +51,22 @@ pipeline {
 	'''
       }
     }
-    stage('Docker publish') {
+    /* stage('Docker publish') {
     steps {
       sh '''
       docker login -u="shilpa0411" -p="Corp@1994"
       docker push shilpa0411/dockerfile:v1
         '''
 	}
-          }
+          } */
+	  stage('Docker publish') {
+    steps {
+     script { 
+               docker.withRegistry('', registryCredential ) {
+                        sh 'docker push shilpa0411/dockerfile:v1'
+                    }
+                } 
+               }
+	}
      }
 }
