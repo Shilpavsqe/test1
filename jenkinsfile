@@ -2,12 +2,9 @@ pipeline {
    agent any
     environment {
 
-      sonar_url = 'http://172.31.85.107:9000/'
+      sonar_url = 'http://172.31.6.111:9000/'
       sonar_username = 'admin'
       sonar_password = 'admin'
-        registry = "https://hub.docker.com/repository/docker/pudirohith/game1.0"
-        registryCredential = 'de878e7e-a859-475b-9d41-accd6c781854'
-	dockerImage = 'pudirohith/game1.0:v1'
  }
     tools {
       // Install the Maven version configured as "M3" and add it to the path.
@@ -40,7 +37,7 @@ pipeline {
       }
       stage ('Publishing Artifact') {
 	steps {
-	nexusArtifactUploader artifacts: [[artifactId:'gameoflife1', classifier: '', file: '/var/lib/jenkins/workspace/Test-pipeline/gameoflife-build/target/gameoflife-build-1.0-SNAPSHOT.jar', type:'jar', type: 'jar']], credentialsId: '25e8f6b2-8c1e-49b9-9f7b-485c40a57b82', groupId: 'com.wakaleo.gameoflife', nexusUrl: '172.31.85.107:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'Shilpa', version: '4.0.0'
+	nexusArtifactUploader artifacts: [[artifactId:'gameoflife1', classifier: '', file: '/var/lib/jenkins/workspace/Test-pipeline/gameoflife-build/target/gameoflife-build-1.0-SNAPSHOT.jar', type:'jar', type: 'jar']], credentialsId: '25e8f6b2-8c1e-49b9-9f7b-485c40a57b82', groupId: 'com.wakaleo.gameoflife', nexusUrl: '172.31.6.111:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'Shilpa', version: '4.0.0'
            archiveArtifacts '**/*.jar'
 	}
      }
@@ -48,15 +45,15 @@ pipeline {
       agent any
       steps {
         sh '''
-	docker build -t pudirohith/game1.0:v1 /var/lib/jenkins/workspace/Test-pipeline/
+	docker build -t shilpa0411/dockerfile:v1 /var/lib/jenkins/workspace/Test-pipeline/
 	'''
       }
     }
     stage('Docker publish') {
     steps {
       sh '''
-      docker login -u="pudirohith" -p="sietkmech3"
-      docker push pudirohith/game1.0:v1
+      docker login -u="shilpa0411" -p="Corp@1994"
+      docker push shilpa0411/dockerfile:v1
         '''
 	}
           }
